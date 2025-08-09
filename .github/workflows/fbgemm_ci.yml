@@ -7,8 +7,7 @@ name: FBGEMM CI
 
 on:
   push:
-    branches:
-      - main
+    branches: []
 
   pull_request:
     branches:
@@ -25,7 +24,6 @@ concurrency:
 
 jobs:
   build-linux:
-    if: ${{ github.repository_owner == 'pytorch' }}
     runs-on: ${{ matrix.host-machine.instance }}
     container:
       image: amazonlinux:2023
@@ -41,8 +39,8 @@ jobs:
       fail-fast: false
       matrix:
         host-machine: [
-          { arch: x86, instance: "linux.12xlarge" },
-          { arch: arm, instance: "linux.arm64.2xlarge" },
+          { arch: x86, instance: "ubuntu-latest" },
+          { arch: arm, instance: "ubuntu-latest" },
         ]
         library-type: [ static, shared ]
         compiler: [
@@ -55,7 +53,7 @@ jobs:
           # ARM SVE support doesn't exist in GCC 9
           - host-machine:
               arch: arm
-              instance: linux.arm64.2xlarge
+              instance: ubuntu-latest
             compiler:
               name: gcc
               version: 9.5.0
@@ -133,7 +131,6 @@ jobs:
 
 
   build-bazel:
-    if: ${{ github.repository_owner == 'pytorch' }}
     runs-on: ${{ matrix.host-machine.instance }}
     container:
       image: amazonlinux:2023
@@ -148,7 +145,7 @@ jobs:
       fail-fast: false
       matrix:
         host-machine: [
-          { arch: x86, instance: "linux.12xlarge" },
+          { arch: x86, instance: "ubuntu-latest" },
         ]
         compiler: [ "gcc", "clang" ]
 
