@@ -170,6 +170,10 @@ if(FBGEMM_LIBRARY_TYPE STREQUAL STATIC)
   set(fbgemm_generic_defs FBGEMM_STATIC)
 endif()
 
+if(CMAKE_SYSTEM_PROCESSOR MATCHES "aarch64|ARM64|arm64")
+  set(fbgemm_generic_defs ${fbgemm_generic_defs} FBGEMM_ENABLE_KLEIDIAI)
+endif()
+
 cpp_library(
   PREFIX
     fbgemm_generic
